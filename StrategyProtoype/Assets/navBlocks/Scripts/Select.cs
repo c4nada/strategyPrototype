@@ -5,13 +5,16 @@ using UnityEngine;
 public class Select : MonoBehaviour {
 
     public Material dormant,selectable,selected;
-    
+        
     private Material _activeMat;
 	
+    private GameObject _gamecontroller;
+
 	private bool chosen;
 	// Use this for initialization
 	void Start () {
-
+        
+		_gamecontroller = GameObject.FindGameObjectWithTag("GameController");
 
 		_activeMat = dormant;
 		chosen = false;

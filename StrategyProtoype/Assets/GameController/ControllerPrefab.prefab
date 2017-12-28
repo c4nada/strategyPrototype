@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4681550281042274}
   - component: {fileID: 114005053741736710}
+  - component: {fileID: 114833236422305854}
+  - component: {fileID: 114159380821455920}
   m_Layer: 0
   m_Name: ControllerPrefab
   m_TagString: GameController
@@ -52,4 +54,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActivePlayer: 0
-  player: {fileID: 0}
+  player: {fileID: 1601893295836160, guid: e0c89411827313149b9bbd18a5515f06, type: 2}
+--- !u!114 &114159380821455920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850420301101860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c262f8233208bc4987bfec23694fd8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114833236422305854
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1850420301101860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aeaf5cabfd2e1547a7bee6a397d68fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundGrid: {fileID: 1113782834288320, guid: 2143caaf7c8cf3f45afa49121a447906, type: 2}
+  xGridSize: 4
+  yGridSize: 4
+  spawnFactor: 7
