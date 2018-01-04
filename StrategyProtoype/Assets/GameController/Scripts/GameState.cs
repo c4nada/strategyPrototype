@@ -13,7 +13,6 @@ public class GameState : MonoBehaviour {
 
 		ActivePlayer =1;
 
-		Instantiate(player);
 		
 	}
 	
