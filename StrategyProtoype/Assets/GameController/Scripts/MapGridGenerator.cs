@@ -26,15 +26,13 @@ public class MapGridGenerator : MonoBehaviour {
 			{
                grid[i,j] = 0;
 			   groundGrid.name = string.Format("Grid-{0},{1}", i, j);
-			   Instantiate(groundGrid, setSpawnPoint(i,j,true), groundGrid.transform.rotation);
+			   Instantiate(groundGrid, setSpawnPoint(i,j), groundGrid.transform.rotation);
 
 			if(guycounter < guyCount)
 			   {
-				   var guyInstance = Instantiate(Guy, setSpawnPoint(i,j,false), Guy.transform.rotation).GetComponent<guyController>();
-			       guyInstance.setInitialPosition(i,j);
+				   Instantiate(Guy, setSpawnPoint(i,j), Guy.transform.rotation);
 				   guycounter++;
 			   }
-		   
 			}
 		}
 		
@@ -45,16 +43,13 @@ public class MapGridGenerator : MonoBehaviour {
 		
 	}
 
-	Vector3 setSpawnPoint(float xpos, float zPos, bool isGround)
+	Vector3 setSpawnPoint(float xpos, float zPos)
 	{
 		Vector3 spawn;
 
 		spawn.x = xpos * spawnFactor ;
-		spawn.z = zPos * spawnFactor;
-        if(isGround)
-			spawn.y = 0; //always at 0
-		else
-		   spawn.y = 2; 	
+		spawn.y = 0;
+		spawn.z = zPos * spawnFactor; 	
 
 		return spawn;
 	}
