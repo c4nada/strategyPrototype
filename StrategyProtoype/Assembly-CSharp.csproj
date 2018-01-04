@@ -54,6 +54,8 @@
      <Compile Include="Assets\GameController\Scripts\GameState.cs" />
      <Compile Include="Assets\GameController\Scripts\MapGridGenerator.cs" />
      <Compile Include="Assets\GameController\Scripts\UnitMover.cs" />
+     <Compile Include="Assets\navBlocks\Scripts\groundController.cs" />
+     <Compile Include="Assets\navBlocks\Scripts\groundProperties.cs" />
      <Compile Include="Assets\navBlocks\Scripts\Select.cs" />
      <Compile Include="Assets\Player\scripts\gameStart.cs" />
      <Compile Include="Assets\Player\scripts\guyController.cs" />
