@@ -12,7 +12,7 @@ public class groundController : MonoBehaviour {
 
 		spawnFactor = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapGridGenerator>().spawnFactor;
 		myProps.pieceXPosition = this.gameObject.transform.position.x / spawnFactor;
-		myProps.pieceYPosition = this.gameObject.transform.position.y / spawnFactor;
+		myProps.pieceYPosition = this.gameObject.transform.position.z / spawnFactor;
 		myProps.isSelected = false;
 	}
 	

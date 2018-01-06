@@ -54,7 +54,7 @@ public class Select : MonoBehaviour {
 	private void OnMouseDown() {
 		if(selectable)
 		{ 
-			_guySelected.GetComponent<guyController>().setDest(this.gameObject);
+			_guySelected.GetComponent<guyController>().setFinalDest(this.gameObject);
 			selectable = false;
 
 		}

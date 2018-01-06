@@ -9,12 +9,13 @@ public class guyController : MonoBehaviour {
 
     //debug
 	public float xpos, ypos;
+	public float moveSpeed;
 	public guyProperties Guy = new guyProperties();
 	private float spawnFactor;
 	public bool isMoving;
     
 	private GameObject[] validDestinations;
-	private Vector3 vector_dest;
+	private Vector3 vector_dest, vector_finalDest;
 
 	private GameObject destination;
 	// Use this for initialization
@@ -43,10 +44,13 @@ public class guyController : MonoBehaviour {
 		
 		if(isMoving)
 		{
-			this.transform.position = Vector3.MoveTowards(this.transform.position,vector_dest,.1f);
+			this.transform.position = Vector3.MoveTowards(this.transform.position,vector_dest,moveSpeed);
 		}
-		if(this.transform.position == vector_dest)
+		if(this.transform.position == vector_dest && this.transform.position != vector_finalDest)
+		{
 		 isMoving = false;
+		 setMovePath();
+		}
 	}
 
 	private void OnMouseDown() {
@@ -61,21 +65,89 @@ public class guyController : MonoBehaviour {
 
 		foreach(GameObject dest in validDestinations)
 		{
-			if(dest.GetComponent<groundController>().myProps.pieceXPosition < 3)
+			if(dest.GetComponent<groundController>().myProps.pieceXPosition < 5)
 				dest.GetComponent<Select>().setSelectable(this.gameObject);
 		}
 	}
 
-	public void setDest(GameObject dest)
+	public void setFinalDest(GameObject FDest)
 	{
-		destination = dest;
-		vector_dest = dest.transform.GetChild(0).position;
+		destination = FDest;
+		vector_finalDest = FDest.transform.GetChild(0).position;
 		foreach(GameObject d in validDestinations)
 		{
-			if(d.GetComponent<groundController>().myProps.pieceXPosition < 3)
-				d.GetComponent<Select>().setDormant();
+			d.GetComponent<Select>().setDormant();
 		}
-		isMoving = true;
+		setMovePath();
+
+	}
+	
+	public void setMovePath()
+	{
+		//compare my final destination to current path
+		//X Difference
+		float xDif = destination.GetComponent<groundController>().myProps.pieceXPosition - Guy.myXPosition;
+		float yDif = destination.GetComponent<groundController>().myProps.pieceYPosition - Guy.myYPosition;
+
+        
+		//move in x axis first
+		if(xDif > 0)
+		{
+			foreach(GameObject d in validDestinations)
+			{
+				if(Guy.myXPosition+1 == d.GetComponent<groundController>().myProps.pieceXPosition
+				    && Guy.myYPosition == d.GetComponent<groundController>().myProps.pieceYPosition)
+					{
+						vector_dest = d.transform.GetChild(0).position;
+						isMoving = true;
+						Guy.myXPosition++;
+						return;	
+					}	
+			}
+		}
+		else if(xDif < 0)
+		{
+			foreach(GameObject d in validDestinations)
+			{
+				if(Guy.myXPosition-1 == d.GetComponent<groundController>().myProps.pieceXPosition
+				    && Guy.myYPosition == d.GetComponent<groundController>().myProps.pieceYPosition)
+					{
+						vector_dest = d.transform.GetChild(0).position;
+						isMoving = true;
+						Guy.myXPosition--;
+						return;	
+					}	
+			}
+		}
+		//then move in y if nothing to move in x
+		if(yDif > 0)
+		{
+			foreach(GameObject d in validDestinations)
+			{
+				if(Guy.myYPosition+1 == d.GetComponent<groundController>().myProps.pieceYPosition
+				    && Guy.myXPosition == d.GetComponent<groundController>().myProps.pieceXPosition)
+					{
+						vector_dest = d.transform.GetChild(0).position;
+						isMoving = true;
+						Guy.myYPosition++;
+						return;	
+					}	
+			}
+		}
+		else if(yDif < 0)
+		{
+			foreach(GameObject d in validDestinations)
+			{
+				if(Guy.myYPosition-1 == d.GetComponent<groundController>().myProps.pieceYPosition
+				    && Guy.myXPosition == d.GetComponent<groundController>().myProps.pieceXPosition)
+					{
+						vector_dest = d.transform.GetChild(0).position;
+						isMoving = true;
+						Guy.myYPosition--;
+						return;	
+					}	
+			}
+		}
 
 	}
 
