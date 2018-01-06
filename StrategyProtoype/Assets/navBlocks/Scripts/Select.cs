@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Select : MonoBehaviour {
 
-    public Material dormant,selectable,selected;
+    public Material dormant,mat_selectable,selected;
         
     private Material _activeMat;
 	
-    private GameObject _gamecontroller;
+    public GameObject _gamecontroller, _guySelected;
 
-	private bool chosen;
+	public bool chosen,selectable;
 	// Use this for initialization
 	void Start () {
         
@@ -27,28 +27,37 @@ public class Select : MonoBehaviour {
 		this.GetComponent<MeshRenderer>().material = _activeMat;
 	}
 
-	private void OnMouseEnter() {
+	/*private void OnMouseEnter() {
         if(!chosen)
 			_activeMat = selectable;
 		
+	}*/
+
+	public void setSelectable(GameObject arg) 
+	{
+		_activeMat = mat_selectable;
+		selectable = true;
+		_guySelected = arg;
 	}
 
-	private void OnMouseExit() {
+	public void setDormant()
+	{
+		selectable = false;
+		_activeMat = dormant;
+	}
+
+	/*private void OnMouseExit() {
 		if(!chosen)
 			_activeMat = dormant;
-	}
+	} */
 
 	private void OnMouseDown() {
-		_activeMat = selected;
-		
-		if(!chosen)
-			chosen = true;
-		else
-		{
-		    chosen = false;
-			_activeMat = selectable;
+		if(selectable)
+		{ 
+			_guySelected.GetComponent<guyController>().setDest(this.gameObject);
+			selectable = false;
+
 		}
 		
-		   
 	}
 }

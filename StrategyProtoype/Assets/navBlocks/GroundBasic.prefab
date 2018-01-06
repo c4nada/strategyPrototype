@@ -82,7 +82,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1803923132464064}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -182,8 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dormant: {fileID: 2100000, guid: 96e68d9669387c74eb2d9fb985ac15a7, type: 2}
-  selectable: {fileID: 2100000, guid: 4392c8da938a02c4a99201e31eab4fdf, type: 2}
+  mat_selectable: {fileID: 2100000, guid: 4392c8da938a02c4a99201e31eab4fdf, type: 2}
   selected: {fileID: 2100000, guid: a5b06be379475c84eb56354244137996, type: 2}
+  _gamecontroller: {fileID: 0}
+  _guySelected: {fileID: 0}
+  chosen: 0
+  selectable: 0
 --- !u!114 &114366458088059742
 MonoBehaviour:
   m_ObjectHideFlags: 1
