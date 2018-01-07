@@ -98,7 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpos: 0
   ypos: 0
-  moveSpeed: 0.4
+  moveSpeed: 0.5
+  moveRange: 4
   isMoving: 0
 --- !u!114 &114513436666109900
 MonoBehaviour:

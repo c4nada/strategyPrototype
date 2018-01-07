@@ -24,4 +24,10 @@ public class guyProperties {
 		set;
 
 	}
+
+	public float moveRange
+	{
+		get;
+		set;
+	}
 }

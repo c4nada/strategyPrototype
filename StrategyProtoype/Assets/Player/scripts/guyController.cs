@@ -9,12 +9,13 @@ public class guyController : MonoBehaviour {
 
     //debug
 	public float xpos, ypos;
-	public float moveSpeed;
+	public float moveSpeed,moveRange;
 	public guyProperties Guy = new guyProperties();
 	private float spawnFactor;
 	public bool isMoving;
     
-	private GameObject[] validDestinations;
+	private GameObject[]  allTiles;
+	private List<GameObject> validDestinations = new List<GameObject>();
 	private Vector3 vector_dest, vector_finalDest;
 
 	private GameObject destination;
@@ -22,14 +23,14 @@ public class guyController : MonoBehaviour {
 	void Start () {
 
 		spawnFactor = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapGridGenerator>().spawnFactor;
-
+         
 		this.gameObject.transform.localPosition = new Vector3 (this.transform.position.x,2,this.transform.position.z);
 
 		//set initial grid position based on spawn factor and spawn location
 		Guy.isSelected = false;
 		Guy.myXPosition =  this.gameObject.transform.localPosition.x / spawnFactor;
 		Guy.myYPosition =  this.gameObject.transform.localPosition.z / spawnFactor;
-		
+		Guy.moveRange = moveRange;
 
 		//debug
 		ypos = Guy.myYPosition;
@@ -51,6 +52,12 @@ public class guyController : MonoBehaviour {
 		 isMoving = false;
 		 setMovePath();
 		}
+		else if(this.transform.position == vector_finalDest)
+		{
+			validDestinations.Clear();
+			vector_finalDest = new Vector3(0,0,0);
+		}
+		
 	}
 
 	private void OnMouseDown() {
@@ -61,12 +68,36 @@ public class guyController : MonoBehaviour {
 
 	public void selectValidDestination(){
 
-		validDestinations = GameObject.FindGameObjectsWithTag("GroundBasic");
-
-		foreach(GameObject dest in validDestinations)
+		allTiles = GameObject.FindGameObjectsWithTag("GroundBasic");
+        float pieceX = 0;
+		float pieceY = 0;
+		foreach(GameObject d in allTiles)
 		{
-			if(dest.GetComponent<groundController>().myProps.pieceXPosition < 5)
-				dest.GetComponent<Select>().setSelectable(this.gameObject);
+			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
+			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
+			//get all horizontal and vertical valid locations
+			//get Horizontal X
+			//NOTE: this could be improved by using the abs function for all...maybe
+			if(pieceX >= Guy.myXPosition - moveRange 
+			   && pieceX <= Guy.myXPosition + moveRange
+			   && pieceY == Guy.myYPosition)
+				validDestinations.Add(d);
+			//Get horizontal Y
+			else if(pieceY >= Guy.myYPosition - moveRange
+			        && pieceY <= Guy.myYPosition + moveRange
+		 	        && pieceX == Guy.myXPosition)
+			    validDestinations.Add(d);
+			//get valid locations diagnol
+			else if (pieceX >= Guy.myXPosition   - (moveRange - 1)  
+			        && pieceY >= Guy.myYPosition - (moveRange -1)
+					&& pieceX <= Guy.myXPosition + (moveRange -1)
+					&& pieceY <= Guy.myYPosition + (moveRange -1)
+					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= moveRange)
+				validDestinations.Add(d);
+		}
+		foreach(GameObject d in validDestinations)
+		{
+			d.GetComponent<Select>().setSelectable(this.gameObject);
 		}
 	}
 
