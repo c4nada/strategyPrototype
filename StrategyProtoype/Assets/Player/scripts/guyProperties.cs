@@ -30,4 +30,9 @@ public class guyProperties {
 		get;
 		set;
 	}
+
+	public float attackRange
+	{
+		get;set;
+	}
 }

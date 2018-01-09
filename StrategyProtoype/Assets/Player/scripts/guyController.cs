@@ -9,7 +9,7 @@ public class guyController : MonoBehaviour {
 
     //debug
 	public float xpos, ypos;
-	public float moveSpeed,moveRange;
+	public float moveSpeed,moveRange,attackRange;
 	public guyProperties Guy = new guyProperties();
 	private float spawnFactor;
 	public bool isMoving;
@@ -23,7 +23,9 @@ public class guyController : MonoBehaviour {
 	void Start () {
 
 		spawnFactor = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapGridGenerator>().spawnFactor;
-         
+
+		allTiles = GameObject.FindGameObjectsWithTag("GroundBasic");
+
 		this.gameObject.transform.localPosition = new Vector3 (this.transform.position.x,2,this.transform.position.z);
 
 		//set initial grid position based on spawn factor and spawn location
@@ -31,6 +33,7 @@ public class guyController : MonoBehaviour {
 		Guy.myXPosition =  this.gameObject.transform.localPosition.x / spawnFactor;
 		Guy.myYPosition =  this.gameObject.transform.localPosition.z / spawnFactor;
 		Guy.moveRange = moveRange;
+		Guy.attackRange = attackRange;
 
 		//debug
 		ypos = Guy.myYPosition;
@@ -56,6 +59,8 @@ public class guyController : MonoBehaviour {
 		{
 			validDestinations.Clear();
 			vector_finalDest = new Vector3(0,0,0);
+			checkAttack();
+			
 		}
 		
 	}
@@ -68,7 +73,6 @@ public class guyController : MonoBehaviour {
 
 	public void selectValidDestination(){
 
-		allTiles = GameObject.FindGameObjectsWithTag("GroundBasic");
         float pieceX = 0;
 		float pieceY = 0;
 		foreach(GameObject d in allTiles)
@@ -97,7 +101,14 @@ public class guyController : MonoBehaviour {
 		}
 		foreach(GameObject d in validDestinations)
 		{
-			d.GetComponent<Select>().setSelectable(this.gameObject);
+			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
+			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
+			
+			if( Guy.myXPosition != pieceX
+			   || Guy.myYPosition != pieceY)
+			{
+				d.GetComponent<Select>().setSelectable(this.gameObject);
+			}
 		}
 	}
 
@@ -179,6 +190,39 @@ public class guyController : MonoBehaviour {
 					}	
 			}
 		}
+
+	}
+	public void checkAttack()
+	{
+		float pieceX = 0;
+		float pieceY = 0;
+		
+		//check surrounder horizontal tiles
+		foreach(GameObject d in allTiles)
+		{
+			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
+			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
+			
+			if(pieceX >= Guy.myXPosition - attackRange 
+			   && pieceX <= Guy.myXPosition + attackRange
+			   && pieceY == Guy.myYPosition)
+			{
+				d.GetComponent<Select>().setAttackable();
+			}
+			//Get horizontal Y
+			else if(pieceY >= Guy.myYPosition - attackRange
+			        && pieceY <= Guy.myYPosition + attackRange
+		 	        && pieceX == Guy.myXPosition)
+			{
+				d.GetComponent<Select>().setAttackable();
+			}
+
+			if( Guy.myXPosition == pieceX
+			   && Guy.myYPosition == pieceY)
+			   d.GetComponent<Select>().setDormant();
+
+		}
+
 
 	}
 

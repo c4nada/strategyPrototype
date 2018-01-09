@@ -184,6 +184,7 @@ MonoBehaviour:
   dormant: {fileID: 2100000, guid: 96e68d9669387c74eb2d9fb985ac15a7, type: 2}
   mat_selectable: {fileID: 2100000, guid: 4392c8da938a02c4a99201e31eab4fdf, type: 2}
   selected: {fileID: 2100000, guid: a5b06be379475c84eb56354244137996, type: 2}
+  mat_attackable: {fileID: 2100000, guid: a5b06be379475c84eb56354244137996, type: 2}
   _gamecontroller: {fileID: 0}
   _guySelected: {fileID: 0}
   chosen: 0

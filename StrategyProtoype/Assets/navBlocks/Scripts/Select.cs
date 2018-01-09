@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Select : MonoBehaviour {
 
-    public Material dormant,mat_selectable,selected;
+    public Material dormant,mat_selectable,selected,mat_attackable;
         
     private Material _activeMat;
 	
@@ -32,6 +32,12 @@ public class Select : MonoBehaviour {
 			_activeMat = selectable;
 		
 	}*/
+
+	public void setAttackable()
+	{
+		_activeMat = mat_attackable;
+	}
+
 
 	public void setSelectable(GameObject arg) 
 	{
