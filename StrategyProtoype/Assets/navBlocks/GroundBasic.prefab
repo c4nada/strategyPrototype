@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114040765053398628}
   - component: {fileID: 114366458088059742}
   m_Layer: 0
-  m_Name: GroundBasic
+  m_Name: Grid-9,9
   m_TagString: GroundBasic
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

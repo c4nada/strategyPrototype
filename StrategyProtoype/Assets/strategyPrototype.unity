@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 66756108}
   - component: {fileID: 66756107}
   - component: {fileID: 66756106}
+  - component: {fileID: 66756110}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -194,6 +195,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &66756110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66756105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3d80165822d27f4181cf2cf95cecad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zMax: 0
+  zMin: 0
+  yMax: 10
+  yMin: 40
+  cameraMoveSpeed: 20
 --- !u!1 &428439765
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,42 +318,6 @@ Prefab:
     - target: {fileID: 1850420301101860, guid: dc175fe4b76ff5f4d8127e61dab44112, type: 2}
       propertyPath: m_Name
       value: GameController
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: Guy
-      value: 
-      objectReference: {fileID: 1601893295836160, guid: e0c89411827313149b9bbd18a5515f06,
-        type: 2}
-    - target: {fileID: 114005053741736710, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114159380821455920, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: guyCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: spawnFactor
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: xGridSize
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
-        type: 2}
-      propertyPath: yGridSize
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc175fe4b76ff5f4d8127e61dab44112, type: 2}

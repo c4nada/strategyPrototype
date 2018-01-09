@@ -48,7 +48,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850420301101860}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 313f6dcfb1ab1de46b0432c8fa62050a, type: 3}
   m_Name: 
@@ -61,7 +61,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1850420301101860}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c262f8233208bc4987bfec23694fd8d, type: 3}
   m_Name: 
@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundGrid: {fileID: 1113782834288320, guid: 2143caaf7c8cf3f45afa49121a447906, type: 2}
-  xGridSize: 4
-  yGridSize: 4
-  spawnFactor: 7
+  Guy: {fileID: 1601893295836160, guid: e0c89411827313149b9bbd18a5515f06, type: 2}
+  xGridSize: 10
+  yGridSize: 10
+  spawnFactor: 5
+  guyCount: 1
