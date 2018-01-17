@@ -189,6 +189,7 @@ MonoBehaviour:
   _guySelected: {fileID: 0}
   chosen: 0
   selectable: 0
+  attackable: 0
 --- !u!114 &114366458088059742
 MonoBehaviour:
   m_ObjectHideFlags: 1

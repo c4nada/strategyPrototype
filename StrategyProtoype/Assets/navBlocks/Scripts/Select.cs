@@ -10,7 +10,7 @@ public class Select : MonoBehaviour {
 	
     public GameObject _gamecontroller, _guySelected;
 
-	public bool chosen,selectable;
+	public bool chosen,selectable,attackable;
 	// Use this for initialization
 	void Start () {
         
@@ -36,6 +36,7 @@ public class Select : MonoBehaviour {
 	public void setAttackable()
 	{
 		_activeMat = mat_attackable;
+		attackable = true;
 	}
 
 
@@ -63,6 +64,11 @@ public class Select : MonoBehaviour {
 			_guySelected.GetComponent<guyController>().setFinalDest(this.gameObject);
 			selectable = false;
 
+		}
+		if(attackable)
+		{
+			//send to other guy that attack occured
+			attackable = false;
 		}
 		
 	}

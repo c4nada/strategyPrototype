@@ -79,23 +79,12 @@ public class guyController : MonoBehaviour {
 		{
 			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
 			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
-			//get all horizontal and vertical valid locations
-			//get Horizontal X
-			//NOTE: this could be improved by using the abs function for all...maybe
-			if(pieceX >= Guy.myXPosition - moveRange 
-			   && pieceX <= Guy.myXPosition + moveRange
-			   && pieceY == Guy.myYPosition)
-				validDestinations.Add(d);
-			//Get horizontal Y
-			else if(pieceY >= Guy.myYPosition - moveRange
-			        && pieceY <= Guy.myYPosition + moveRange
-		 	        && pieceX == Guy.myXPosition)
-			    validDestinations.Add(d);
-			//get valid locations diagnol
-			else if (pieceX >= Guy.myXPosition   - (moveRange - 1)  
-			        && pieceY >= Guy.myYPosition - (moveRange -1)
-					&& pieceX <= Guy.myXPosition + (moveRange -1)
-					&& pieceY <= Guy.myYPosition + (moveRange -1)
+			
+			//get all valid locations based on move range
+			 if (pieceX >= Guy.myXPosition   - (moveRange )  
+			        && pieceY >= Guy.myYPosition - (moveRange)
+					&& pieceX <= Guy.myXPosition + (moveRange )
+					&& pieceY <= Guy.myYPosition + (moveRange )
 					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= moveRange)
 				validDestinations.Add(d);
 		}
@@ -203,20 +192,16 @@ public class guyController : MonoBehaviour {
 			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
 			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
 			
-			if(pieceX >= Guy.myXPosition - attackRange 
-			   && pieceX <= Guy.myXPosition + attackRange
-			   && pieceY == Guy.myYPosition)
-			{
-				d.GetComponent<Select>().setAttackable();
-			}
-			//Get horizontal Y
-			else if(pieceY >= Guy.myYPosition - attackRange
-			        && pieceY <= Guy.myYPosition + attackRange
-		 	        && pieceX == Guy.myXPosition)
-			{
-				d.GetComponent<Select>().setAttackable();
-			}
-
+           if (pieceX >= Guy.myXPosition   - (attackRange )  
+			        && pieceY >= Guy.myYPosition - (attackRange)
+					&& pieceX <= Guy.myXPosition + (attackRange )
+					&& pieceY <= Guy.myYPosition + (attackRange )
+					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= attackRange)
+				    {
+					d.GetComponent<Select>().setAttackable();
+					}
+					
+			//cant attack my own position...
 			if( Guy.myXPosition == pieceX
 			   && Guy.myYPosition == pieceY)
 			   d.GetComponent<Select>().setDormant();
