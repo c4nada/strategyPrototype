@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1601893295836160}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -98,9 +98,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xpos: 0
   ypos: 0
-  moveSpeed: 0.5
-  moveRange: 2
-  attackRange: 1
+  moveSpeed: 1.2
+  moveRange: 6
+  attackRange: 3
   isMoving: 0
 --- !u!114 &114513436666109900
 MonoBehaviour:

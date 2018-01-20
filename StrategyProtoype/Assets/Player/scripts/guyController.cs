@@ -66,10 +66,18 @@ public class guyController : MonoBehaviour {
 	}
 
 	private void OnMouseDown() {
-		
+
+		//TODO setup selection method
+	    foreach(GameObject d in allTiles)
+		{
+			d.GetComponent<Select>().setDormant();
+		}
 		Guy.isSelected = true;
+
 		selectValidDestination();
 	}
+
+	
 
 	public void selectValidDestination(){
 
@@ -111,6 +119,15 @@ public class guyController : MonoBehaviour {
 		}
 		setMovePath();
 
+	}
+
+	public void attackUnit(GameObject guyAttacked)
+	{
+	    foreach(GameObject d in allTiles)
+		{
+			d.GetComponent<Select>().setDormant();
+		}
+		Guy.isSelected = false;
 	}
 	
 	public void setMovePath()
@@ -198,7 +215,7 @@ public class guyController : MonoBehaviour {
 					&& pieceY <= Guy.myYPosition + (attackRange )
 					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= attackRange)
 				    {
-					d.GetComponent<Select>().setAttackable();
+					d.GetComponent<Select>().setAttackable(this.gameObject);
 					}
 					
 			//cant attack my own position...
@@ -207,8 +224,6 @@ public class guyController : MonoBehaviour {
 			   d.GetComponent<Select>().setDormant();
 
 		}
-
-
 	}
 
 	

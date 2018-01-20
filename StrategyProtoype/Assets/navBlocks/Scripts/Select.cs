@@ -33,10 +33,11 @@ public class Select : MonoBehaviour {
 		
 	}*/
 
-	public void setAttackable()
+	public void setAttackable(GameObject arg)
 	{
 		_activeMat = mat_attackable;
 		attackable = true;
+		_guySelected = arg;
 	}
 
 
@@ -67,7 +68,7 @@ public class Select : MonoBehaviour {
 		}
 		if(attackable)
 		{
-			//send to other guy that attack occured
+			_guySelected.GetComponent<guyController>().attackUnit(this.gameObject);
 			attackable = false;
 		}
 		
