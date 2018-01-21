@@ -324,6 +324,12 @@ Prefab:
       propertyPath: guyCount
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114833236422305854, guid: dc175fe4b76ff5f4d8127e61dab44112,
+        type: 2}
+      propertyPath: guyEnemy
+      value: 
+      objectReference: {fileID: 1601893295836160, guid: eff201bbb4729a243b43762b167dad8f,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc175fe4b76ff5f4d8127e61dab44112, type: 2}
   m_IsPrefabParent: 0

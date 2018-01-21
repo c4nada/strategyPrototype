@@ -12,17 +12,19 @@ public class guyController : MonoBehaviour {
 	public float moveSpeed,moveRange,attackRange;
 	public guyProperties Guy = new guyProperties();
 	private float spawnFactor;
-	public bool isMoving;
+	public bool isMoving,myTurn;
+	public int team;
     
 	private GameObject[]  allTiles;
 	private List<GameObject> validDestinations = new List<GameObject>();
 	private Vector3 vector_dest, vector_finalDest;
-
-	private GameObject destination;
+	private GameObject destination, gameController;
 	// Use this for initialization
 	void Start () {
 
-		spawnFactor = GameObject.FindGameObjectWithTag("GameController").GetComponent<MapGridGenerator>().spawnFactor;
+		gameController = GameObject.FindGameObjectWithTag("GameController");
+
+		spawnFactor = gameController.GetComponent<MapGridGenerator>().spawnFactor;
 
 		allTiles = GameObject.FindGameObjectsWithTag("GroundBasic");
 
@@ -34,6 +36,8 @@ public class guyController : MonoBehaviour {
 		Guy.myYPosition =  this.gameObject.transform.localPosition.z / spawnFactor;
 		Guy.moveRange = moveRange;
 		Guy.attackRange = attackRange;
+		Guy.team = team;
+		Guy.selectable = true;
 
 		//debug
 		ypos = Guy.myYPosition;

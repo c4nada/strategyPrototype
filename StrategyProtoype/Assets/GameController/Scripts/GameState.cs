@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour {
 
-    public int ActivePlayer;
+    public int activeTeam;
 
 	public GameObject player;
 
 	// Use this for initialization
 	void Start () {
 
-		ActivePlayer =1;
+		activeTeam =1;
 
 		
 	}

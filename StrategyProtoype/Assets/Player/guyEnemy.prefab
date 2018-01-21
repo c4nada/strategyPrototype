@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23558436544309076}
   - component: {fileID: 114367159275212800}
   m_Layer: 0
-  m_Name: Guy
+  m_Name: guyEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: defadae921b8b6c4e88464c8602290ac, type: 2}
+  - {fileID: 2100000, guid: 958d77c4c1193c84581d39bd4b15e0f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   attackRange: 3
   isMoving: 0
   myTurn: 0
-  team: 1
+  team: 2
 --- !u!135 &135843448263866174
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class guyProperties {
-    
-
-	private bool _isselected;
-	// Use this for initialization
 	public float myYPosition
 	{
 		get;
@@ -32,6 +28,16 @@ public class guyProperties {
 	}
 
 	public float attackRange
+	{
+		get;set;
+	}
+
+	public int team
+	{
+		get; set;
+	}
+
+	public bool selectable
 	{
 		get;set;
 	}

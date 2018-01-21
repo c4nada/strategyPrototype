@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapGridGenerator : MonoBehaviour {
 
-	public GameObject groundGrid,Guy;
+	public GameObject groundGrid,Guy,guyEnemy;
     public int xGridSize, yGridSize,spawnFactor,guyCount;	
 	private int[,] grid;
 
@@ -31,6 +31,7 @@ public class MapGridGenerator : MonoBehaviour {
 			if(guycounter < guyCount)
 			   {
 				   Instantiate(Guy, setSpawnPoint(i,j), Guy.transform.rotation);
+				   Instantiate(guyEnemy, setSpawnPoint(i+(xGridSize-1),j), guyEnemy.transform.rotation);
 				   guycounter++;
 			   }
 			}
