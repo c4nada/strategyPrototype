@@ -18,4 +18,13 @@ public class groundProperties {
 		get;set;
 	}
 
+	public bool isOccupied
+	{
+		get;
+		set;
+	}
+
+
+
+
 }

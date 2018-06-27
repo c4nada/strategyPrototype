@@ -60,6 +60,7 @@
      <Compile Include="Assets\navBlocks\Scripts\Select.cs" />
      <Compile Include="Assets\Player\scripts\gameStart.cs" />
      <Compile Include="Assets\Player\scripts\guyController.cs" />
+     <Compile Include="Assets\Player\scripts\guyGameLogic.cs" />
      <Compile Include="Assets\Player\scripts\guyProperties.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

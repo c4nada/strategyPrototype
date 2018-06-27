@@ -10,6 +10,8 @@ public class Select : MonoBehaviour {
 	
     public GameObject _gamecontroller, _guySelected;
 
+	private Component _groundProps;
+
 	public bool chosen,selectable,attackable;
 	// Use this for initialization
 	void Start () {
@@ -18,6 +20,7 @@ public class Select : MonoBehaviour {
 
 		_activeMat = dormant;
 		chosen = false;
+		_groundProps = this.GetComponent<groundController>();
 		
 	}
 	
@@ -51,6 +54,7 @@ public class Select : MonoBehaviour {
 	public void setDormant()
 	{
 		selectable = false;
+		attackable = false;	
 		_activeMat = dormant;
 	}
 
@@ -60,16 +64,29 @@ public class Select : MonoBehaviour {
 	} */
 
 	private void OnMouseDown() {
+
 		if(selectable)
 		{ 
+			float xPos = _guySelected.GetComponent<guyController>().Guy.myXPosition;
+			float yPos = _guySelected.GetComponent<guyController>().Guy.myYPosition;
+
 			_guySelected.GetComponent<guyController>().setFinalDest(this.gameObject);
+			//set the starting tile to be unoccupied if i selected one
+			_guySelected.GetComponent<guyController>().setIsOccupied(xPos,yPos,false);
 			selectable = false;
 
 		}
-		if(attackable)
+		//we can only attack a tile if its occupied, if so pass it to the guy to do the logic
+		else if(attackable && this.GetComponent<groundController>().myProps.isOccupied)
 		{
 			_guySelected.GetComponent<guyController>().attackUnit(this.gameObject);
 			attackable = false;
+		}
+		//if no valid action on tile is taken then set dormant...
+		else if(_guySelected != null)
+		{
+			 _guySelected.GetComponent<guyController>().setAllTilesDormant();
+			// _guySelected.GetComponent<guyController>().Guy.isSelected = false;
 		}
 		
 	}

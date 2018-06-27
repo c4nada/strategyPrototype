@@ -41,4 +41,15 @@ public class guyProperties {
 	{
 		get;set;
 	}
+
+	public float health
+	{
+		get;set;
+	}
+
+	public float damageDone
+	{
+		get;set;
+	}
+
 }

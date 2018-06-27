@@ -5,10 +5,9 @@ using UnityEngine;
 public class guyController : MonoBehaviour {
     
 	
-    private bool _isSelected;
+    private bool _setIsOccupiedOnce, _destroy;
 
-    //debug
-	public float xpos, ypos;
+	public float health, damageDone;
 	public float moveSpeed,moveRange,attackRange;
 	public guyProperties Guy = new guyProperties();
 	private float spawnFactor;
@@ -16,10 +15,10 @@ public class guyController : MonoBehaviour {
 	public int team;
     
 	private GameObject[]  allTiles;
+	private List<GameObject> _allGuys = new List<GameObject>();
 	private List<GameObject> validDestinations = new List<GameObject>();
 	private Vector3 vector_dest, vector_finalDest;
 	private GameObject destination, gameController;
-	// Use this for initialization
 	void Start () {
 
 		gameController = GameObject.FindGameObjectWithTag("GameController");
@@ -27,8 +26,16 @@ public class guyController : MonoBehaviour {
 		spawnFactor = gameController.GetComponent<MapGridGenerator>().spawnFactor;
 
 		allTiles = GameObject.FindGameObjectsWithTag("GroundBasic");
+		_allGuys.AddRange(GameObject.FindGameObjectsWithTag("Guy"));
+		
 
 		this.gameObject.transform.localPosition = new Vector3 (this.transform.position.x,2,this.transform.position.z);
+        
+		//default values...
+		if(health <= 0)
+			health = 10;
+		if(damageDone <= 0)
+			damageDone = 1;
 
 		//set initial grid position based on spawn factor and spawn location
 		Guy.isSelected = false;
@@ -38,18 +45,23 @@ public class guyController : MonoBehaviour {
 		Guy.attackRange = attackRange;
 		Guy.team = team;
 		Guy.selectable = true;
+		Guy.health = health;
+		Guy.damageDone = damageDone;
 
-		//debug
-		ypos = Guy.myYPosition;
-		xpos = Guy.myXPosition;
+		_setIsOccupiedOnce = true; //because unity isnt setting pos at startup properly...
+		_destroy = false;
+
+
 	}
-	
-	// Update is called once per frame
 	void Update () {
-		//debug
-		ypos = Guy.myYPosition;
-		xpos = Guy.myXPosition;
-		
+
+		//Do once post start
+		if(_setIsOccupiedOnce)
+		{
+		 setIsOccupied(Guy.myXPosition, Guy.myYPosition, true);
+		 _setIsOccupiedOnce = false;
+		}
+		//move the guy
 		if(isMoving)
 		{
 			this.transform.position = Vector3.MoveTowards(this.transform.position,vector_dest,moveSpeed);
@@ -59,23 +71,23 @@ public class guyController : MonoBehaviour {
 		 isMoving = false;
 		 setMovePath();
 		}
+		//after moving do an action if you can
 		else if(this.transform.position == vector_finalDest)
 		{
 			validDestinations.Clear();
 			vector_finalDest = new Vector3(0,0,0);
 			checkAttack();
-			
 		}
+
+		if(_destroy)
+		   Destroy(this.gameObject);
 		
 	}
 
 	private void OnMouseDown() {
 
 		//TODO setup selection method
-	    foreach(GameObject d in allTiles)
-		{
-			d.GetComponent<Select>().setDormant();
-		}
+	    setAllTilesDormant();
 		Guy.isSelected = true;
 
 		selectValidDestination();
@@ -87,17 +99,20 @@ public class guyController : MonoBehaviour {
 
         float pieceX = 0;
 		float pieceY = 0;
+		bool isOccupied;
 		foreach(GameObject d in allTiles)
 		{
 			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
 			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
+		    isOccupied = d.GetComponent<groundController>().myProps.isOccupied;
 			
 			//get all valid locations based on move range
 			 if (pieceX >= Guy.myXPosition   - (moveRange )  
 			        && pieceY >= Guy.myYPosition - (moveRange)
 					&& pieceX <= Guy.myXPosition + (moveRange )
 					&& pieceY <= Guy.myYPosition + (moveRange )
-					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= moveRange)
+					&& Mathf.Abs(Guy.myXPosition - pieceX) + Mathf.Abs(Guy.myYPosition - pieceY) <= moveRange
+					&& isOccupied == false)
 				validDestinations.Add(d);
 		}
 		foreach(GameObject d in validDestinations)
@@ -115,23 +130,42 @@ public class guyController : MonoBehaviour {
 
 	public void setFinalDest(GameObject FDest)
 	{
+		float finalXPos = FDest.GetComponent<groundController>().myProps.pieceXPosition;
+		float finalYPos = FDest.GetComponent<groundController>().myProps.pieceYPosition;
+
 		destination = FDest;
 		vector_finalDest = FDest.transform.GetChild(0).position;
-		foreach(GameObject d in validDestinations)
-		{
-			d.GetComponent<Select>().setDormant();
-		}
+		setAllTilesDormant();
 		setMovePath();
+
+		//set the final position to be occupied
+		setIsOccupied(finalXPos,finalYPos,true);
 
 	}
 
-	public void attackUnit(GameObject guyAttacked)
+	public void attackUnit(GameObject attackLocation)
 	{
-	    foreach(GameObject d in allTiles)
-		{
-			d.GetComponent<Select>().setDormant();
-		}
+		//get the tile position we are attacking
+		float attackXLocation = attackLocation.GetComponent<groundController>().myProps.pieceXPosition;
+		float attackYLocation = attackLocation.GetComponent<groundController>().myProps.pieceYPosition;
+
+        setAllTilesDormant();
 		Guy.isSelected = false;
+		
+		//Attack the guy with that position
+		foreach(GameObject guy in _allGuys)
+		{
+			float guyX = guy.GetComponent<guyController>().Guy.myXPosition;
+			float guyY = guy.GetComponent<guyController>().Guy.myYPosition;
+			int team = guy.GetComponent<guyController>().Guy.team;
+
+			if(guyX == attackXLocation && guyY == attackYLocation && this.Guy.team != team)
+			{
+				guy.GetComponent<guyController>().takeDamage(Guy.damageDone);
+				//_allGuys.Remove(guy);
+				return;
+			}
+		}
 	}
 	
 	public void setMovePath()
@@ -145,7 +179,7 @@ public class guyController : MonoBehaviour {
 		//move in x axis first
 		if(xDif > 0)
 		{
-			foreach(GameObject d in validDestinations)
+			foreach(GameObject d in allTiles)
 			{
 				if(Guy.myXPosition+1 == d.GetComponent<groundController>().myProps.pieceXPosition
 				    && Guy.myYPosition == d.GetComponent<groundController>().myProps.pieceYPosition)
@@ -159,7 +193,7 @@ public class guyController : MonoBehaviour {
 		}
 		else if(xDif < 0)
 		{
-			foreach(GameObject d in validDestinations)
+			foreach(GameObject d in allTiles)
 			{
 				if(Guy.myXPosition-1 == d.GetComponent<groundController>().myProps.pieceXPosition
 				    && Guy.myYPosition == d.GetComponent<groundController>().myProps.pieceYPosition)
@@ -174,7 +208,7 @@ public class guyController : MonoBehaviour {
 		//then move in y if nothing to move in x
 		if(yDif > 0)
 		{
-			foreach(GameObject d in validDestinations)
+			foreach(GameObject d in allTiles)
 			{
 				if(Guy.myYPosition+1 == d.GetComponent<groundController>().myProps.pieceYPosition
 				    && Guy.myXPosition == d.GetComponent<groundController>().myProps.pieceXPosition)
@@ -188,7 +222,7 @@ public class guyController : MonoBehaviour {
 		}
 		else if(yDif < 0)
 		{
-			foreach(GameObject d in validDestinations)
+			foreach(GameObject d in allTiles)
 			{
 				if(Guy.myYPosition-1 == d.GetComponent<groundController>().myProps.pieceYPosition
 				    && Guy.myXPosition == d.GetComponent<groundController>().myProps.pieceXPosition)
@@ -229,6 +263,58 @@ public class guyController : MonoBehaviour {
 
 		}
 	}
+
+	public void setIsOccupied(float xpos, float ypos, bool flag)
+	{
+		float pieceX,pieceY;
+		foreach(GameObject d in allTiles)
+		{
+			pieceX = d.GetComponent<groundController>().myProps.pieceXPosition;
+			pieceY = d.GetComponent<groundController>().myProps.pieceYPosition;
+			string temp = d.GetComponent<groundController>().name;
+			
+
+		 if (pieceX == xpos &&  pieceY == ypos)
+			{
+	    		d.GetComponent<groundController>().setIsOccupiedFlag(flag);
+			}
+
+		}
+	}
+
+	public void takeDamage(float damageDone)
+	{
+		health -= damageDone;
+		if(health <= 0)
+		{
+			foreach(GameObject g in _allGuys)
+		    {
+				this.gameObject.tag = "Untagged";
+				if(this.gameObject != g)
+					g.GetComponent<guyController>().reset_allGuys();
+			}
+			setIsOccupied(Guy.myXPosition, Guy.myYPosition, false);
+			_destroy = true;
+		}
+	}
+
+	public void setAllTilesDormant()
+	{
+		foreach(GameObject t in allTiles)
+		{
+			t.GetComponent<Select>().setDormant();
+		}
+
+	}
+
+	public void reset_allGuys()
+	{
+		_allGuys.Clear();
+		_allGuys.AddRange(GameObject.FindGameObjectsWithTag("Guy"));
+	}
+
+
+
 
 	
 

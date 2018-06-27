@@ -27,6 +27,7 @@ public class MapGridGenerator : MonoBehaviour {
                grid[i,j] = 0;
 			   groundGrid.name = string.Format("Grid-{0},{1}", i, j);
 			   Instantiate(groundGrid, setSpawnPoint(i,j), groundGrid.transform.rotation);
+			   groundGrid.GetComponent<groundController>().resetMyPosition();
 
 			if(guycounter < guyCount)
 			   {
