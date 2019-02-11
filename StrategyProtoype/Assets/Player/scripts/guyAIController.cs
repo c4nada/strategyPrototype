@@ -87,13 +87,76 @@ public class guyAIController : MonoBehaviour {
 
 	private void OnMouseDown() {
 
-		//this is used for debug only
+		getBestTarget();
 	}
 
-	
+	public void getBestTarget()
+	{
+		Vector2 myPostion = new Vector2(this.Guy.myXPosition, this.Guy.myYPosition);
+		Vector2 enemyPosition;
+		Vector2 bestTargetPosition = new Vector2(0,0);
+		float lowestRange = 0;
+		GameObject bestTarget = null;
+		//get all the enemy guys
+		List<GameObject> enemies = new List<GameObject>();
+
+		
+		foreach(GameObject g in _allGuys)
+		{
+			if (g.GetComponent<guyController>() != null)
+			{
+			
+			if(g.GetComponent<guyController>().Guy.team != this.Guy.team)
+				enemies.Add(g);
+				
+			}
+
+		}
+
+		float temp = 0;
+
+		//get the closest guy
+		foreach(GameObject g in enemies)
+		{
+			enemyPosition = new Vector2(g.GetComponent<guyController>().Guy.myXPosition, 
+			                            g.GetComponent<guyController>().Guy.myYPosition);
+
+			//Debug.Log(enemyPosition + " " + myPostion + " " + Vector2.Distance(myPostion,enemyPosition));
+
+			
+			if(lowestRange == 0 || lowestRange > Vector2.Distance(myPostion,enemyPosition))
+			{
+				lowestRange = Vector2.Distance(myPostion,enemyPosition);
+				bestTarget = g;
+				bestTargetPosition = enemyPosition;
+			}
+
+		}
+
+		Debug.Log(bestTarget.name + " " + bestTargetPosition + " " +  lowestRange);
+
+		//determine what position to move to based on movent range
+        Vector2 targetPostion;   
+		selectValidDestination();
+		foreach(GameObject g in validDestinations)
+		{
+			targetPostion = new Vector2(g.GetComponent<groundController>().myProps.pieceXPosition,
+										g.GetComponent<groundController>().myProps.pieceYPosition);
+
+			
+			
+
+
+		}
+
+		//kill the list at end
+		enemies.Clear();
+
+	}
 
 	public void selectValidDestination(){
 
+		validDestinations.Clear();
         float pieceX = 0;
 		float pieceY = 0;
 		bool isOccupied;
@@ -127,7 +190,7 @@ public class guyAIController : MonoBehaviour {
 		setIsOccupied(finalXPos,finalYPos,true);
 		//minus action points and check if turn should end
 		ModifyActionPoints(-2); //THIS IS HARDCODED FOR NOW
-		gameController.GetComponent<GameState>().checkActionPoints();
+		//gameController.GetComponent<GameState>().checkActionPoints();
 
 	}
 
@@ -138,7 +201,7 @@ public class guyAIController : MonoBehaviour {
 		float attackYLocation = attackLocation.GetComponent<groundController>().myProps.pieceYPosition;
 
 		ModifyActionPoints(-2);
-		gameController.GetComponent<GameState>().checkActionPoints();
+		//gameController.GetComponent<GameState>().checkActionPoints();
 		
 		//Attack the guy with that position
 		foreach(GameObject guy in _allGuys)

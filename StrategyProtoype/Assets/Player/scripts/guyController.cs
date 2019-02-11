@@ -161,7 +161,8 @@ public class guyController : MonoBehaviour {
 
 			if(guyX == attackXLocation && guyY == attackYLocation && this.Guy.team != team)
 			{
-				guy.GetComponent<guyController>().takeDamage(Guy.damageDone);
+				if(guy.GetComponent<guyController>() != null)
+					guy.GetComponent<guyController>().takeDamage(Guy.damageDone);
 				//_allGuys.Remove(guy);
 				return;
 			}
