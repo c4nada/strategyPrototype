@@ -51,5 +51,9 @@ public class guyProperties {
 	{
 		get;set;
 	}
+	public float actionPoints
+	{
+		get;set;
+	}
 
 }

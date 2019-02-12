@@ -136,17 +136,39 @@ public class guyAIController : MonoBehaviour {
 		Debug.Log(bestTarget.name + " " + bestTargetPosition + " " +  lowestRange);
 
 		//determine what position to move to based on movent range
-        Vector2 targetPostion;   
+        Vector2 finalDestPostion;   
 		selectValidDestination();
+		GameObject finalDest = null;
+		lowestRange = 0; //reset the lowest range to work out best spot to move to
 		foreach(GameObject g in validDestinations)
 		{
-			targetPostion = new Vector2(g.GetComponent<groundController>().myProps.pieceXPosition,
+			finalDestPostion = new Vector2(g.GetComponent<groundController>().myProps.pieceXPosition,
 										g.GetComponent<groundController>().myProps.pieceYPosition);
 
-			
-			
+			//Debug.Log(g.name + " " + lowestRange);
+        	if(Vector2.Distance(myPostion,bestTargetPosition) > 1 )
+			{
+				Debug.Log(myPostion + " " + g.name); 
+				if(lowestRange == 0 || lowestRange > Vector2.Distance(bestTargetPosition,finalDestPostion))
+				{
+					lowestRange = Vector2.Distance(bestTargetPosition,finalDestPostion);
+					finalDest = g;
+				
+				}
 
+			}
+		}
 
+		
+		if(finalDest != null)
+		{
+			Debug.Log(finalDest.name + " " + lowestRange);
+			setIsOccupied(myPostion[0], myPostion[1], false);
+			setFinalDest(finalDest);
+		}
+		else
+		{
+			Debug.Log("I'm not moving!");
 		}
 
 		//kill the list at end
@@ -308,14 +330,17 @@ public class guyAIController : MonoBehaviour {
 
 	public void takeDamage(float damageDone)
 	{
+		Debug.Log("I took: " + damageDone);
 		health -= damageDone;
 		if(health <= 0)
 		{
 			foreach(GameObject g in _allGuys)
 		    {
 				this.gameObject.tag = "Untagged";
-				if(this.gameObject != g)
+				if(this.gameObject != g && g.GetComponent<guyController>() != null)
 					g.GetComponent<guyController>().reset_allGuys();
+				else if(this.gameObject != g && g.GetComponent<guyAIController>() != null)
+					g.GetComponent<guyAIController>().reset_allGuys();
 			}
 			setIsOccupied(Guy.myXPosition, Guy.myYPosition, false);
 			_destroy = true;

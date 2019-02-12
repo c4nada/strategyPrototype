@@ -155,18 +155,41 @@ public class guyController : MonoBehaviour {
 		//Attack the guy with that position
 		foreach(GameObject guy in _allGuys)
 		{
-			float guyX = guy.GetComponent<guyController>().Guy.myXPosition;
-			float guyY = guy.GetComponent<guyController>().Guy.myYPosition;
-			int team = guy.GetComponent<guyController>().Guy.team;
-
-			if(guyX == attackXLocation && guyY == attackYLocation && this.Guy.team != team)
+			if(guy.GetComponent<guyController>() != null)
 			{
-				if(guy.GetComponent<guyController>() != null)
-					guy.GetComponent<guyController>().takeDamage(Guy.damageDone);
-				//_allGuys.Remove(guy);
-				return;
+				float guyX = guy.GetComponent<guyController>().Guy.myXPosition;
+				float guyY = guy.GetComponent<guyController>().Guy.myYPosition;
+				int team = guy.GetComponent<guyController>().Guy.team;
+
+				if(guyX == attackXLocation && guyY == attackYLocation && this.Guy.team != team)
+				{
+					
+						guy.GetComponent<guyController>().takeDamage(Guy.damageDone);
+					//_allGuys.Remove(guy);
+					return;
+				}
 			}
+			else if (guy.GetComponent<guyAIController>() != null)
+			{
+				Debug.Log("attacking");
+				float guyX = guy.GetComponent<guyAIController>().Guy.myXPosition;
+				float guyY = guy.GetComponent<guyAIController>().Guy.myYPosition;
+				int team = guy.GetComponent<guyAIController>().Guy.team;
+
+				Debug.Log(guyX + " " + guyY);
+
+				if(guyX == attackXLocation && guyY == attackYLocation && this.Guy.team != team)
+				{
+					Debug.Log("attacking");
+						guy.GetComponent<guyAIController>().takeDamage(Guy.damageDone);
+					//_allGuys.Remove(guy);
+					return;
+				}
+				
+			}
+			
 		}
+		return;
 	}
 	
 	public void setMovePath()
@@ -291,8 +314,10 @@ public class guyController : MonoBehaviour {
 			foreach(GameObject g in _allGuys)
 		    {
 				this.gameObject.tag = "Untagged";
-				if(this.gameObject != g)
+				if(this.gameObject != g && g.GetComponent<guyController>() != null)
 					g.GetComponent<guyController>().reset_allGuys();
+				else if(this.gameObject != g && g.GetComponent<guyAIController>() != null)
+					g.GetComponent<guyAIController>().reset_allGuys();
 			}
 			setIsOccupied(Guy.myXPosition, Guy.myYPosition, false);
 			_destroy = true;
